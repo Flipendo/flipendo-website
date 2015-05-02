@@ -1,24 +1,48 @@
 @import url(http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic);
+@import "compass/css3/transition";
+
+$circle-size: 400px;
+$circle-background: #d6dadc;
+$circle-color: #bf0404;
+$inset-size: 350px;
+$inset-color: #eeeeee;
+$transition-length: 1s;
+$shadow: 0px 0px 0px rgba(0,0,0,0.2);
+$chunk-margin:4px;
+$chunk-color: #d6dadc;
+$chunk-color-done: #bf0404;
+
+.radial-container {
+	width: $circle-size;
+	height: $circle-size+100;
+	margin:auto;
+	position: relative;
+}
+
+.radial-progress, .progress-suceeded {
+	background-color:$circle-color;
+	height:$circle-size;
+	width: $circle-size;
+	position:absolute;
+	border-radius: 50%;
+	margin: 50px auto;
+	font-size:180pt;
+	color:$inset-color;
+	line-height:$circle-size;
+}
 
 .radial-progress {
-	$circle-size: 400px;
-	$circle-background: #d6dadc;
-	$circle-color: #bf0404;
-	$inset-size: 350px;
-	$inset-color: #eeeeee;
-	$transition-length: 1s;
-	$shadow: 0px 0px 0px rgba(0,0,0,0.2);
-	$chunk-size:20px;
-	$chunk-color: #d6dadc;
-	$chunk-color-done: #bf0404;
-
 	margin: 50px auto;
 	width: $circle-size;
 	height: $circle-size;
 
 	background-color: $circle-background;
-	border-radius: 50%;
+	border-radius: 50% auto;
+
 	.circle {
+
+		margin:auto;
+
 		.mask, .fill, .shadow {
 			width:    $circle-size;
 			height:   $circle-size;
@@ -43,6 +67,7 @@
 			}
 		}
 	}
+
 	.inset {
 		width:       $inset-size;
 		height:      $inset-size;
@@ -66,10 +91,10 @@
 
 			.chunk {
 				float:left;
-				margin:2px;
+				margin:$chunk-margin;
 				background-color:$chunk-color;
-				width:$inset-size*4/6/8-4;
-				height:$inset-size*4/6/8-4;
+				width:$inset-size*4/6/8-$chunk-margin*2;
+				height:$inset-size*4/6/8-$chunk-margin*2;
 			}
 			.chunk.chunk-done {
 				background-color:$chunk-color-done;
