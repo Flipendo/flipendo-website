@@ -11,7 +11,16 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 }
 
 body {
-  padding: 0;
+  padding: 20px;
+  font-family: 'Museo Sans Rounded', 'Helvetica Neue', sans-serif;
+  font-weight:100;
+  background-color:#eeeeee;
+}
+
+h1 {
+  font-weight:200;
+  font-size:70pt;
+  line-height:70px;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -65,6 +74,11 @@ body {
   p + h4 {
     margin-top: 28px;
   }
+}
+
+.center {
+    margin:auto;
+    text-align:center;
 }
 
 /* Responsive: Portrait tablets and up */

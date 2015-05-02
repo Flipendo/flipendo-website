@@ -8,10 +8,17 @@
  * Controller of the flipendoApp
  */
 angular.module('flipendoApp')
-  .controller('MainCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('MainCtrl', ['$scope', '$http', function ($scope, $http) {
+    $http.get('/datasets/chunks_test.json').success(function(data) {
+      $scope.chunks = data;
+    });
+  }])
+  .directive('progressCircle', function() {
+    return {
+      scope: {
+        chunks:   '=',
+        progress: '=progress'
+      },
+      templateUrl: 'views/progress.html'
+    };
   });
