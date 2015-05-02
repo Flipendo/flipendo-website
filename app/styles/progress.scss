@@ -19,25 +19,37 @@ $chunk-color-done: #bf0404;
 	position: relative;
 }
 
-.radial-progress, .progress-suceeded {
+.progress-container {
+	height:$circle-size;
+	width: $circle-size;
+}
+
+.progress-succeeded {
 	background-color:$circle-color;
 	height:$circle-size;
 	width: $circle-size;
 	position:absolute;
-	border-radius: 50%;
 	margin: 50px auto;
 	font-size:180pt;
 	color:$inset-color;
 	line-height:$circle-size;
+	border-radius: 50%;
+  transform: scale(0.0);
+  transition: all 1s ease-out-in 1s;
+}
+
+.progress-succeeded.animate-success {
+  transform: scale(1.0);
 }
 
 .radial-progress {
 	margin: 50px auto;
 	width: $circle-size;
 	height: $circle-size;
+	position:absolute;
 
 	background-color: $circle-background;
-	border-radius: 50% auto;
+	border-radius: 50%;
 
 	.circle {
 
