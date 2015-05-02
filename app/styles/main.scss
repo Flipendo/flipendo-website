@@ -3,6 +3,8 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 @import "bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 
+$dark-color: #bf0404;
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
@@ -28,6 +30,15 @@ h2 {
   font-size: 25pt;
   color:#bf0404;
   margin:0;
+}
+
+h2.download_link {
+  font-style: italic;
+  font-size:16pt;
+}
+
+a {
+  color: $dark-color;
 }
 
 h3 {

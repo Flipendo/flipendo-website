@@ -10,7 +10,7 @@
 angular.module('flipendoApp')
   .controller('MainCtrl', ['$scope', '$timeout', '$http', function ($scope, $timeout, $http) {
     $scope.chunks = [];
-    $scope.done = false;
+    $scope.status = 'pending';
 
     $http.get('/datasets/chunks_test.json').success(function(data) {
       $scope.chunks = data;
@@ -20,11 +20,11 @@ angular.module('flipendoApp')
     var disappear;
 
     disappear = function() {
-      $scope.done = false;
+      $scope.status = 'pending';
       $timeout(appear, 3000);
     };
     appear = function() {
-      $scope.done = true;
+      $scope.status = 'done';
       $timeout(disappear, 3000);
     };
 
@@ -33,7 +33,7 @@ angular.module('flipendoApp')
   .directive('progressCircle', function() {
     return {
       scope: {
-        done: '=',
+        status: '=',
         chunks:   '=',
         progress: '=progress'
       },
