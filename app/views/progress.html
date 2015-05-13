@@ -1,5 +1,5 @@
 <div class="radial-container">
-	<div class="radial-progress" data-progress="{{progress}}">
+	<div class="radial-progress" data-progress="{{file.progress}}">
 		<div class="circle">
 			<div class="mask full">
 				<div class="fill"></div>
@@ -12,15 +12,15 @@
 		</div>
 		<div class="inset">
 			<div class="chunks">
-				<div class="chunk" ng-repeat="chunk in chunks" ng-class="{'chunk-done': chunk.done, 'chunk-error': chunk.error }"></div>
+				<div class="chunk" ng-repeat="chunk in file.chunks" ng-class="{'chunk-done': chunk.done, 'chunk-error': chunk.error }"></div>
 			</div>
 		</div>
 	</div>
 	<div class="progress-container">
-		<div class="progress-succeeded" ng-class="{ 'animate-success': status == 'done' }">
+		<div class="progress-succeeded" ng-class="{ 'animate-success': file.status == 'done' }">
 			<div class="progress-content">
 				<span class="h2">&#10003;</span><br/>
-				<span class="h3 download_link">Download</span>
+				<a class="h3 download_link" href="#">Download</a>
 			</div>
 		</div>
 	</div>

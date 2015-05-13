@@ -8,7 +8,7 @@
  *
  * Main module of the application.
  */
-angular
+var app = angular
   .module('flipendoApp', [
     'ngAnimate',
     'ngCookies',
@@ -16,8 +16,9 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch'
-  ])
-  .config(function ($routeProvider) {
+  ]);
+
+app.config(function ($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
