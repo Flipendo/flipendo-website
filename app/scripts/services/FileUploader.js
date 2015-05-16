@@ -10,10 +10,15 @@ app.factory('fileUploader', function() {
     this.status = 'done';
   };
 
+  var upload = function() {
+
+  };
+
   return {
     progress: progress,
     chunks: chunks,
     status: status,
-    done: done
+    done: done,
+    upload: upload
   };
 });
