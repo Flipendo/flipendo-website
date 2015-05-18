@@ -5,13 +5,17 @@
 </div>
 
 <div class="row center">
-  <progress-circle file="file"></progress-circle>
+  <upload-circle file="file"></upload-circle>
 </div>
-<div class="row center" ng-if="file.status=='pending'">
-  <h2>Your video is being transcoded</h2>
-  <h3>Our spell can take some time to process</h3>
+<div class="row center" ng-if="file.status=='waiting'">
+  <h2>Drop a video file into the area above</h2>
+  <h3>It will then be transcoded to H256</h3>
 </div>
-<div class="row center" ng-if="file.status=='done'">
-  <h2>Your video has been transcoded!</h2>
-  <h3>You can download the file <a href="#">here</a></h3>
+<div class="row center" ng-if="file.status=='uploading'">
+  <h2>Your video is being uploaded!</h2>
+  <h3>Please wait for the transfer to complete</h3>
+</div>
+<div class="row center" ng-if="file.status=='error'">
+  <h2>There was an error processing your file</h2>
+  <h3 ng-bind="file.error"></h3>
 </div>

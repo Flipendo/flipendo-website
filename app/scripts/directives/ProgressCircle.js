@@ -6,6 +6,6 @@ app.directive('progressCircle', function() {
     scope: {
       file: '='
     },
-    templateUrl: 'views/progress.html'
+    templateUrl: 'views/partials/progress.html'
   };
 });

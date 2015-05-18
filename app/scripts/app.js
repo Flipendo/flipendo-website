@@ -15,13 +15,18 @@ var app = angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'ngFileUpload'
   ]);
 
 app.config(function ($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
+        controller: 'MainCtrl'
+      })
+      .when('/:fileID', {
+        templateUrl: 'views/detail.html',
         controller: 'MainCtrl'
       })
       .when('/about', {

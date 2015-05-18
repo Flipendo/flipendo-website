@@ -107,7 +107,6 @@ $chunk-color-done: #bf0404;
 			bottom:   $inset-size/6;
 			overflow: hidden;
 
-			position: absolute;
 			line-height: 1;
 
 			.chunk {
@@ -120,6 +119,31 @@ $chunk-color-done: #bf0404;
 			.chunk.chunk-done {
 				background-color:$chunk-color-done;
 			}
+		}
+
+		.drop-box {
+			height:$inset-size;
+			width:$inset-size;
+			position: absolute;
+			border-radius:50%;
+			transition: background-color 300ms linear;
+		}
+
+		.dragover {
+			background-color:$circle-color;
+			color:$inset-color;
+		}
+
+		.drop-file {
+			height: 100px;
+			margin-top:($inset-size - 100) / 2;
+		}
+
+		.upload-progress {
+			height:$inset-size;
+			line-height: $inset-size - 20;
+			font-size:40px;
+			color: $circle-color;
 		}
 	}
 

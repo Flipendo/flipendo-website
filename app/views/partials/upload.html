@@ -1,0 +1,28 @@
+<div class="radial-container">
+	<div class="radial-progress" data-progress="{{file.uploadProgress}}">
+		<div class="circle">
+			<div class="mask full">
+				<div class="fill"></div>
+			</div>
+			<div class="mask half">
+				<div class="fill"></div>
+				<div class="fill fix"></div>
+			</div>
+			<div class="shadow"></div>
+		</div>
+		<div class="inset">
+      <div ngf-drop ng-model="files" class="drop-box"
+        ngf-drag-over-class="dragover" ngf-multiple="false" ngf-allow-dir="false"
+        ngf-change="file.upload($files)"
+        ngf-accept="'.avi,.mkv,.mp4'">
+  			<div class="drop-file h3" ng-if="file.status=='waiting'">
+            <img src="images/draganddrop.png" width="50" height="50" alt="" /><br/>
+            <span>Drop a file here</span>
+        </div>
+			</div>
+      <div class="upload-progress" ng-if="file.status=='uploading'">
+        {{file.uploadProgress}}%
+      </div>
+		</div>
+	</div>
+</div>
