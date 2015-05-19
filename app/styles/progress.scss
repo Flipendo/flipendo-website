@@ -132,11 +132,23 @@ $chunk-color-done: #bf0404;
 		.dragover {
 			background-color:$circle-color;
 			color:$inset-color;
+
+			.drop-file .icon-draganddrop {
+				background-image: url('/images/draganddrop-white.png');
+			}
 		}
 
 		.drop-file {
 			height: 100px;
 			margin-top:($inset-size - 100) / 2;
+
+			.icon-draganddrop {
+				width:50px;
+				height:50px;
+				margin:0 auto;
+				background-image: url('/images/draganddrop.png');
+			}
+
 		}
 
 		.upload-progress {
