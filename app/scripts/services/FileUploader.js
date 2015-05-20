@@ -2,61 +2,51 @@
 /* global app, API_URL */
 
 app.factory('fileUploader', ['$location', '$routeParams', 'Upload', function($location, $routeParams, Upload) {
-  var progressValue = 0;
-  var chunks = [];
-  var status = 'waiting';
-  var error = '';
+  var FileUploader = function() {
+    this.progress = 0;
+    this.chunks = [];
+    this.status = 'waiting';
+    this.error = '';
 
-  var done = function() {
-    this.status = 'done';
-  };
+    this.done = function() {
+      this.status = 'done';
+    };
 
-  var progress = function(evt) {
-    progressValue = parseInt(100.0 * evt.loaded / evt.total);
-  };
+    this.openSocket = function(id) {
+      this.status = 'pending';
+      console.log('socket', id);
+    };
 
-  var openSocket = function(id) {
-    status = 'pending';
-    console.log('socket', id);
-  };
+    this.upload = function(files) {
+      if (files && files.length) {
+        var self = this;
+        Upload.upload({
+          url: API_URL+'/upload',
+          file: files[0]
+        }).progress(function(evt) {
+          self.progress = parseInt(100.0 * evt.loaded / evt.total) * 2;
+        }).success(function(data, s, headers, config) {
+          /* jshint unused: false */
+          if (s === 200) {
+            self.status = 'pending';
+            $location.path('/'+data.id);
+          } else {
+            self.status = 'error';
+            self.error = data.error;
+          }
+          self.progress = 0;
+        }).error(function() {
+          self.status = 'error';
+          self.progress = 0;
+        });
+        this.status = 'uploading';
+      }
+    };
 
-  var uploaded = function(data, s, headers, config) {
-    /* jshint unused: false */
-    if (s === 200) {
-      status = 'pending';
-      $location.path('/'+data.id);
-    } else {
-      status = 'error';
-      error = data.error;
+    if ($routeParams.fileID) {
+      this.openSocket($routeParams.fileID);
     }
-    progressValue = 0;
-  };
 
-  var uploadError = function() {
-    status = 'error';
-    progressValue = 0;
   };
-
-  var upload = function(files) {
-    if (files && files.length) {
-      Upload.upload({
-        url: API_URL+'/upload',
-        file: files[0]
-      }).progress(progress).success(uploaded).error(uploadError);
-      status = 'uploading';
-    }
-  };
-
-  if ($routeParams.fileID) {
-    openSocket($routeParams.fileID);
-  }
-
-  return {
-    progress: progressValue,
-    chunks: chunks,
-    status: status,
-    error: error,
-    done: done,
-    upload: upload,
-  };
+  return new FileUploader();
 }]);

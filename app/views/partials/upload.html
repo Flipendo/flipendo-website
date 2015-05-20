@@ -1,5 +1,5 @@
 <div class="radial-container">
-	<div class="radial-progress" data-progress="{{file.uploadProgress}}">
+	<div class="radial-progress" data-progress="{{file.progress}}">
 		<div class="circle">
 			<div class="mask full">
 				<div class="fill"></div>
@@ -21,7 +21,7 @@
         </div>
 			</div>
       <div class="upload-progress" ng-if="file.status=='uploading'">
-        {{file.uploadProgress}}%
+        {{file.progress}}%
       </div>
 		</div>
 	</div>

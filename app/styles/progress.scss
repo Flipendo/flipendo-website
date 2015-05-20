@@ -5,7 +5,6 @@ $circle-background: #d6dadc;
 $circle-color: #bf0404;
 $inset-size: 350px;
 $inset-color: #eeeeee;
-$transition-length: 1s;
 $shadow: 0px 0px 0px rgba(0,0,0,0.2);
 $chunk-margin:4px;
 $chunk-color: #d6dadc;
@@ -75,9 +74,6 @@ $chunk-color-done: #bf0404;
 		}
 		.mask, .fill {
 			-webkit-backface-visibility: hidden;
-			transition: -webkit-transform $transition-length;
-			transition: -ms-transform $transition-length;
-			transition: transform $transition-length;
 			border-radius: 50%;
 		}
 		.mask {
