@@ -27,11 +27,7 @@ app.config(function ($routeProvider) {
       })
       .when('/:fileID', {
         templateUrl: 'views/detail.html',
-        controller: 'MainCtrl'
-      })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
+        controller: 'FileCtrl'
       })
       .otherwise({
         redirectTo: '/'

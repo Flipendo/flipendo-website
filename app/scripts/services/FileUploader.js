@@ -1,20 +1,26 @@
 'use strict';
-/* global app, API_URL */
+/* global app, API_URL, io */
 
-app.factory('fileUploader', ['$location', '$routeParams', 'Upload', function($location, $routeParams, Upload) {
+app.factory('fileUploader', ['$location', 'Upload', function($location, Upload) {
   var FileUploader = function() {
     this.progress = 0;
     this.chunks = [];
     this.status = 'waiting';
     this.error = '';
+    this.socket = null;
 
     this.done = function() {
       this.status = 'done';
     };
 
     this.openSocket = function(id) {
+      var self = this;
       this.status = 'pending';
-      console.log('socket', id);
+      this.socket = io.connect(API_URL+'/'+id);
+
+      this.socket.on('chunks', function(data) {
+        self.chunks = data;
+      });
     };
 
     this.upload = function(files) {
@@ -24,7 +30,7 @@ app.factory('fileUploader', ['$location', '$routeParams', 'Upload', function($lo
           url: API_URL+'/upload',
           file: files[0]
         }).progress(function(evt) {
-          self.progress = parseInt(100.0 * evt.loaded / evt.total) * 2;
+          self.progress = parseInt(100.0 * evt.loaded / evt.total);
         }).success(function(data, s, headers, config) {
           /* jshint unused: false */
           if (s === 200) {
@@ -43,9 +49,9 @@ app.factory('fileUploader', ['$location', '$routeParams', 'Upload', function($lo
       }
     };
 
-    if ($routeParams.fileID) {
-      this.openSocket($routeParams.fileID);
-    }
+    this.initSocket = function(id) {
+      this.openSocket(id);
+    };
 
   };
   return new FileUploader();
