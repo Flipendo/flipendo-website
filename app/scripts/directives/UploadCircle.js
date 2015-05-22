@@ -4,7 +4,7 @@
 app.directive('uploadCircle', function() {
   return {
     scope: {
-      randomUploaded: '=',
+      randomUploaded: '&',
       file: '='
     },
     templateUrl: 'views/partials/upload.html'
