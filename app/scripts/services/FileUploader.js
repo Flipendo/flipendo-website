@@ -1,7 +1,7 @@
 'use strict';
 /* global app, API_URL, io */
 
-app.factory('fileUploader', ['$location', 'Upload', function($location, Upload) {
+app.factory('fileUploader', ['$rootScope', '$location', 'Upload', function($rootScope, $location, Upload) {
   var FileUploader = function() {
     this.progress = 0;
     this.chunks = [];
@@ -18,9 +18,48 @@ app.factory('fileUploader', ['$location', 'Upload', function($location, Upload) 
       this.status = 'pending';
       this.socket = io.connect(API_URL+'/'+id);
 
+      console.log("Connecting to socket io", API_URL+'/'+id);
       this.socket.on('chunks', function(data) {
+        if (data.length > 0 && self.status != 'done' && self.status != 'merging') {
+          self.status = 'pending';
+        }
         self.chunks = data;
+        self.refreshChunksProgress();
+        $rootScope.$digest();
       });
+
+      this.socket.on('chunk', function(data) {
+        if (self.status != 'done' && self.status != 'merging') {
+          self.status = 'pending';
+        }
+        if (data.done == true || data.error != null) {
+          self.refreshChunksProgress();
+        }
+        $rootScope.$digest();
+      });
+
+      this.socket.on('merging', function(data) {
+        this.status = 'merging';
+        $rootScope.$digest();
+      });
+
+      this.socket.on('done', function(data) {
+        this.status = 'done';
+        $rootScope.$digest();
+      });
+    };
+
+    this.refreshChunksProgress = function() {
+      var done = 0;
+      for (var i in this.chunks) {
+        if (this.chunks[i].error) {
+          this.error = this.chunks[i].error;
+        }
+        if (this.chunks[i].done) {
+          done++;
+        }
+      }
+      this.progress = parseInt(100 * done / this.chunks.length);
     };
 
     this.upload = function(files) {
