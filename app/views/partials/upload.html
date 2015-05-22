@@ -21,7 +21,12 @@
         </div>
 			</div>
       <div class="upload-progress" ng-if="file.status=='uploading'">
-        {{file.progress}}%
+				<div ng-if="file.progress < 100">
+        	{{file.progress}}%
+				</div>
+				<div ng-if="file.progress == 100">
+        	Verifying...
+				</div>
       </div>
 		</div>
 	</div>
