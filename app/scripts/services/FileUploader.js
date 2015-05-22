@@ -15,11 +15,11 @@ app.factory('fileUploader', ['$rootScope', '$location', 'Upload', function($root
 
     this.openSocket = function(id) {
       var self = this;
-      this.status = 'pending';
       this.socket = io.connect(API_URL+'/'+id);
 
       console.log("Connecting to socket io", API_URL+'/'+id);
       this.socket.on('chunks', function(data) {
+        console.log("Received chunks", data)
         if (data.length > 0 && self.status != 'done' && self.status != 'merging') {
           self.status = 'pending';
         }
@@ -29,6 +29,8 @@ app.factory('fileUploader', ['$rootScope', '$location', 'Upload', function($root
       });
 
       this.socket.on('chunk', function(data) {
+        console.log("Received chunk", data);
+        self.chunks[data.n] = data;
         if (self.status != 'done' && self.status != 'merging') {
           self.status = 'pending';
         }
@@ -39,12 +41,14 @@ app.factory('fileUploader', ['$rootScope', '$location', 'Upload', function($root
       });
 
       this.socket.on('merging', function(data) {
-        this.status = 'merging';
+        console.log("Received merging");
+        self.status = 'merging';
         $rootScope.$digest();
       });
 
       this.socket.on('done', function(data) {
-        this.status = 'done';
+        console.log("Received done");
+        self.status = 'done';
         $rootScope.$digest();
       });
     };
