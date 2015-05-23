@@ -11,7 +11,10 @@
 			<div class="shadow"></div>
 		</div>
 		<div class="inset">
-			<div class="chunks" ng-if="file.status == 'pending'">
+			<div class="chunks" ng-if="file.status == 'pending' && !file.chunks.length">
+				<span class="h2">Splitting...</span>
+			</div>
+			<div class="chunks" ng-if="file.status == 'pending' && file.chunks.length">
 				<div class="chunk" ng-repeat="chunk in file.chunks" ng-class="{'chunk-done': chunk.done, 'chunk-error': chunk.error }"></div>
 			</div>
 			<div class="chunks" ng-if="file.status == 'waiting'">
