@@ -14,6 +14,9 @@
 			<div class="chunks" ng-if="file.status == 'pending' && !file.chunks.length">
 				<span class="h2">Splitting...</span>
 			</div>
+			<div class="chunks" ng-if="file.status == 'merging'">
+				<span class="h2">Merging...</span>
+			</div>
 			<div class="chunks" ng-if="file.status == 'pending' && file.chunks.length">
 				<div class="chunk" ng-repeat="chunk in file.chunks" ng-class="{'chunk-done': chunk.done, 'chunk-error': chunk.error }"></div>
 			</div>
@@ -26,7 +29,7 @@
 		<div class="progress-succeeded" ng-class="{ 'animate-success': file.status == 'done' }">
 			<div class="progress-content">
 				<span class="h2">&#10003;</span><br/>
-				<a class="h3 download_link" href="#">Download</a>
+				<a class="h3 download_link" href="https://s3-ap-southeast-2.amazonaws.com/flipendo/out/{{file.id}}.mkv">Download</a>
 			</div>
 		</div>
 	</div>

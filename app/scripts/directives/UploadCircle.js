@@ -6,7 +6,7 @@ app.directive('uploadCircle', function() {
     scope: {
       file: '='
     },
-    link: function($scope, elem, attrs, controller) {
+    link: function($scope) {
       $scope.randomUploaded = function() {
         return Math.floor((Math.random() * 4));
       };

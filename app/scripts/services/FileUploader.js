@@ -3,6 +3,7 @@
 
 app.factory('fileUploader', ['$rootScope', '$location', 'Upload', function($rootScope, $location, Upload) {
   var FileUploader = function() {
+    this.id = '';
     this.progress = 0;
     this.chunks = [];
     this.status = 'waiting';
@@ -17,10 +18,9 @@ app.factory('fileUploader', ['$rootScope', '$location', 'Upload', function($root
       var self = this;
       this.socket = io.connect(API_URL+'/'+id);
 
-      console.log("Connecting to socket io", API_URL+'/'+id);
       this.socket.on('chunks', function(data) {
-        console.log("Received chunks", data)
-        if (data.length > 0 && self.status != 'done' && self.status != 'merging') {
+        console.log('Received chunks', data);
+        if (data.length > 0 && self.status !== 'done' && self.status !== 'merging') {
           self.status = 'pending';
         }
         self.chunks = data;
@@ -29,25 +29,25 @@ app.factory('fileUploader', ['$rootScope', '$location', 'Upload', function($root
       });
 
       this.socket.on('chunk', function(data) {
-        console.log("Received chunk", data);
+        console.log('Received chunk', data);
         self.chunks[data.n] = data;
-        if (self.status != 'done' && self.status != 'merging') {
+        if (self.status !== 'done' && self.status !== 'merging') {
           self.status = 'pending';
         }
-        if (data.done == true || data.error != null) {
+        if (data.done === true || data.error !== null) {
           self.refreshChunksProgress();
         }
         $rootScope.$digest();
       });
 
-      this.socket.on('merging', function(data) {
-        console.log("Received merging");
+      this.socket.on('merging', function() {
+        console.log('Received merging');
         self.status = 'merging';
         $rootScope.$digest();
       });
 
-      this.socket.on('done', function(data) {
-        console.log("Received done");
+      this.socket.on('done', function() {
+        console.log('Received done');
         self.status = 'done';
         $rootScope.$digest();
       });
@@ -93,6 +93,7 @@ app.factory('fileUploader', ['$rootScope', '$location', 'Upload', function($root
     };
 
     this.initSocket = function(id) {
+      this.id = id;
       this.openSocket(id);
     };
 
