@@ -10,8 +10,4 @@
  */
 app.controller('MainCtrl', ['$scope', '$timeout', '$http', 'fileUploader', function ($scope, $timeout, $http, fileUploader) {
   $scope.file = fileUploader;
-
-  $scope.randomUploaded = function() {
-    return Math.floor((Math.random() * 2));
-  };
 }]);

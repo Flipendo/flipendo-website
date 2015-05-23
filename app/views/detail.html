@@ -11,6 +11,10 @@
   <h2>Your video is being transcoded</h2>
   <h3>Our spell can take some time to process</h3>
 </div>
+<div class="row center" ng-if="file.status=='merging'">
+  <h2>Your video has been transcoded!</h2>
+  <h3>Let us a few minutes to merge every part of it!</h3>
+</div>
 <div class="row center" ng-if="file.status=='done'">
   <h2>Your video has been transcoded!</h2>
   <h3>You can download the file <a href="#">here</a></h3>
