@@ -22,7 +22,7 @@ COPY . /flipendo-website
 WORKDIR /flipendo-website
 
 # Create launch shell script
-RUN echo 'echo "var API_URL = \"$API_ADDR:$API_PORT\";" > dist/config/config.js' > launch.sh
+RUN echo 'echo "var API_URL = \"http://$API_ADDR:$API_PORT\";" > dist/config/config.js' > launch.sh
 RUN echo 'lighttpd -D -f lighttpd.conf' >> launch.sh
 
 RUN grunt build
