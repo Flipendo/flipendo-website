@@ -19,3 +19,7 @@
   <h2>Your video has been transcoded!</h2>
   <h3>You can download the file <a href="https://s3-ap-southeast-2.amazonaws.com/flipendo/out/{{file.id}}.mkv">here</a></h3>
 </div>
+<div class="row center" ng-if="file.status=='error'">
+  <h2>Sorry, Flipendo is a spell quite hard to master!</h2>
+  <h3 ng-bind="file.error"></h3>
+</div>

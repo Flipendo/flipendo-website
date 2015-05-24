@@ -32,5 +32,10 @@
 				<a class="h3 download_link" href="https://s3-ap-southeast-2.amazonaws.com/flipendo/out/{{file.id}}.mkv">Download</a>
 			</div>
 		</div>
+		<div class="progress-succeeded" ng-class="{ 'animate-success': file.status == 'error' }">
+			<div class="progress-content">
+				<span class="h2">x</span>
+			</div>
+		</div>
 	</div>
 </div>
