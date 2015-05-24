@@ -2,11 +2,7 @@ FROM node:0.12
 MAINTAINER Julien Fouilhe
 
 # Install compass
-RUN apt-get update -y
-RUN apt-get install -y ruby-full rubygems-integration lighttpd && gem update --system && gem install sass -v 3.2.19 && gem install compass
-
-# Install dependencies
-RUN npm install -g bower grunt-cli
+RUN apt-get update -y && apt-get install -y ruby-full rubygems-integration lighttpd && gem update --system && gem install sass -v 3.2.19 && gem install compass && npm install -g bower grunt-cli
 
 # Install modules
 ADD package.json /install/package.json
