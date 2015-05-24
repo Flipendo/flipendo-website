@@ -16,7 +16,7 @@ ADD .bowerrc /install/.bowerrc
 ADD bower.json /install/bower.json
 RUN cd /install && bower --allow-root install
 
-RUN mkdir -p /flipendo-website && cp -a /install/node_modules /flipendo-website/ && cp -a /install/bower_components /flipendo-website/
+RUN mkdir -p /flipendo-website && cp -a /install/node_modules /flipendo-website/ && cp -a /install/bower_components /flipendo-website/ && rm -rf /install
 
 COPY . /flipendo-website
 WORKDIR /flipendo-website
