@@ -18,6 +18,17 @@ app.factory('fileUploader', ['$rootScope', '$location', 'Upload', function($root
       var self = this;
       this.socket = io.connect(API_URL+'/'+id);
 
+      this.socket.on('file', function(data) {
+        console.log('Received file', data);
+        if (data.length > 0 && self.status !== 'done' && self.status !== 'merging') {
+          self.status = 'pending';
+        }
+        self.chunks = data.chunks;
+        self.status = data.status;
+        self.refreshChunksProgress();
+        $rootScope.$digest();
+      });
+
       this.socket.on('chunks', function(data) {
         console.log('Received chunks', data);
         if (data.length > 0 && self.status !== 'done' && self.status !== 'merging') {
