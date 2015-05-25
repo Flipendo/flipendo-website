@@ -42,11 +42,11 @@ app.factory('fileUploader', ['$rootScope', '$location', 'Upload', function($root
 
       this.socket.on('chunk', function(data) {
         console.log('Received chunk', data);
-        self.chunks[data.n] = data;
+        self.chunks[parseInt(data.n)] = data;
         if (self.status !== 'done' && self.status !== 'merging') {
           self.status = 'pending';
         }
-        self.updateComputedChunk(data.n);
+        self.updateComputedChunk(parseInt(data.n));
         if (data.done === true || data.error !== null) {
           self.refreshChunksProgress();
         }
@@ -83,6 +83,7 @@ app.factory('fileUploader', ['$rootScope', '$location', 'Upload', function($root
     }
 
     this.updateComputedChunk = function(i) {
+      i = i % 64;
       var j = i;
       var nbr = 0;
       this.computedChunks[i].done = true;
