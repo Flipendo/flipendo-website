@@ -6,6 +6,7 @@ app.factory('fileUploader', ['$rootScope', '$location', 'Upload', function($root
     this.id = '';
     this.progress = 0;
     this.chunks = [];
+    this.computedChunks = [];
     this.status = 'waiting';
     this.error = '';
     this.socket = null;
@@ -24,9 +25,9 @@ app.factory('fileUploader', ['$rootScope', '$location', 'Upload', function($root
           self.status = 'pending';
         }
         self.chunks = data.chunks;
+        self.initComputedChunks();
         self.status = data.status;
         self.refreshChunksProgress();
-        $rootScope.$digest();
       });
 
       this.socket.on('chunks', function(data) {
@@ -35,8 +36,8 @@ app.factory('fileUploader', ['$rootScope', '$location', 'Upload', function($root
           self.status = 'pending';
         }
         self.chunks = data;
+        self.initComputedChunks();
         self.refreshChunksProgress();
-        $rootScope.$digest();
       });
 
       this.socket.on('chunk', function(data) {
@@ -45,10 +46,10 @@ app.factory('fileUploader', ['$rootScope', '$location', 'Upload', function($root
         if (self.status !== 'done' && self.status !== 'merging') {
           self.status = 'pending';
         }
+        self.updateComputedChunk(data.n);
         if (data.done === true || data.error !== null) {
           self.refreshChunksProgress();
         }
-        $rootScope.$digest();
       });
 
       this.socket.on('merging', function() {
@@ -64,6 +65,49 @@ app.factory('fileUploader', ['$rootScope', '$location', 'Upload', function($root
       });
     };
 
+    this.initComputedChunks = function() {
+      for(var i = 0; i < 64 && i < this.chunks.length; i++) {
+        this.computedChunks.push(this.chunks[i]);
+        this.updateComputedChunk(i);
+      }
+    };
+
+    function colourGradientor(p, rgbBeginning, rgbEnd) {
+      var w = p * 2 - 1;
+      var w1 = (w + 1) / 2.0;
+      var w2 = 1 - w1;
+      var rgb = [parseInt(rgbBeginning[0] * w1 + rgbEnd[0] * w2),
+          parseInt(rgbBeginning[1] * w1 + rgbEnd[1] * w2),
+              parseInt(rgbBeginning[2] * w1 + rgbEnd[2] * w2)];
+      return rgb;
+    }
+
+    this.updateComputedChunk = function(i) {
+      var j = i;
+      var nbr = 0;
+      this.computedChunks[i].done = true;
+      this.computedChunks[i].nbrDone = 0;
+      while (j < this.chunks.length) {
+        if (this.chunks[j].error) {
+          this.computedChunks[i].error = this.chunks[j].error;
+        }
+        if (this.chunks[j].done === false) {
+          this.computedChunks[i].done = false;
+        } else {
+          this.computedChunks[i].nbrDone++;
+        }
+        j += 64;
+        nbr++;
+      }
+      this.computedChunks[i].nbr = nbr;
+
+      var baseColor = [214, 218, 220];
+      var doneColor = [191, 4, 4];
+
+      var color = colourGradientor(1.0 - this.computedChunks[i].nbrDone / nbr, baseColor, doneColor);
+      this.computedChunks[i].color = '#'+ color[0].toString(16) + color[1].toString(16) + color[2].toString(16);
+    };
+
     this.refreshChunksProgress = function() {
       var done = 0;
       for (var i in this.chunks) {
@@ -75,6 +119,7 @@ app.factory('fileUploader', ['$rootScope', '$location', 'Upload', function($root
         }
       }
       this.progress = parseInt(100 * done / this.chunks.length);
+      $rootScope.$digest();
     };
 
     this.upload = function(files) {
