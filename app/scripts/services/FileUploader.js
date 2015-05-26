@@ -16,58 +16,19 @@ app.factory('fileUploader', ['$rootScope', '$location', 'Upload', function($root
     };
 
     this.openSocket = function(id) {
-      var self = this;
       this.socket = io.connect(API_URL+'/'+id);
 
-      this.socket.on('file', function(data) {
-        console.log('Received file', data);
-        if (data.length > 0 && self.status !== 'done' && self.status !== 'merging') {
-          self.status = 'pending';
-        }
-        self.chunks = data.chunks;
-        self.initComputedChunks();
-        self.status = data.status;
-        self.refreshChunksProgress();
-      });
-
-      this.socket.on('chunks', function(data) {
-        console.log('Received chunks', data);
-        if (data.length > 0 && self.status !== 'done' && self.status !== 'merging') {
-          self.status = 'pending';
-        }
-        self.chunks = data;
-        self.initComputedChunks();
-        self.refreshChunksProgress();
-      });
-
-      this.socket.on('chunk', function(data) {
-        console.log('Received chunk', data);
-        self.chunks[parseInt(data.n)] = data;
-        if (self.status !== 'done' && self.status !== 'merging') {
-          self.status = 'pending';
-        }
-        self.updateComputedChunk(parseInt(data.n));
-        if (data.done === true || data.error !== null) {
-          self.refreshChunksProgress();
-        }
-      });
-
-      this.socket.on('merging', function() {
-        console.log('Received merging');
-        self.status = 'merging';
-        $rootScope.$digest();
-      });
-
-      this.socket.on('done', function() {
-        console.log('Received done');
-        self.status = 'done';
-        $rootScope.$digest();
-      });
+      return this.socket;
     };
 
     this.initComputedChunks = function() {
       for(var i = 0; i < 64 && i < this.chunks.length; i++) {
-        this.computedChunks.push(this.chunks[i]);
+        var chunk = {};
+
+        for (var k in this.chunks[i]) {
+          chunk[k] = this.chunks[i][k];
+        }
+        this.computedChunks.push(chunk);
         this.updateComputedChunk(i);
       }
     };
@@ -151,7 +112,7 @@ app.factory('fileUploader', ['$rootScope', '$location', 'Upload', function($root
 
     this.initSocket = function(id) {
       this.id = id;
-      this.openSocket(id);
+      return this.openSocket(id);
     };
 
   };

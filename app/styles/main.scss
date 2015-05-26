@@ -48,6 +48,21 @@ h3 {
   margin:0;
 }
 
+.files-list {
+  position:absolute;
+  top:0;
+  bottom:0;
+  right:0;
+  background-color:#FFFFFF;
+  padding:20px;
+  width: 200px;
+  height: 100%;
+
+  h3 {
+    margin-bottom:20px;
+  }
+}
+
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,
